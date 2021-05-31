@@ -8,5 +8,4 @@ public class UserData {
     String city;
     String fullName;
     String phoneNumber;
-
 }
