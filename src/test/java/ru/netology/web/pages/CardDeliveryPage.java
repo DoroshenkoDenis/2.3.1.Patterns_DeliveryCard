@@ -1,4 +1,4 @@
-package ru.netology.web.manager;
+package ru.netology.web.pages;
 
 import com.codeborne.selenide.SelenideElement;
 import lombok.Data;
@@ -12,8 +12,7 @@ import static com.codeborne.selenide.Selenide.*;
 
 @NoArgsConstructor
 @Data
-public class CardDeliveryManager {
-
+public class CardDeliveryPage {
     SelenideElement cityField = $("[data-test-id=city] .input__control");
     SelenideElement dateField = $("[data-test-id=date] .input__control");
     SelenideElement nameField = $("[data-test-id=name] .input__control");
@@ -21,10 +20,11 @@ public class CardDeliveryManager {
     SelenideElement checkboxField = $("[data-test-id=agreement] .checkbox__box");
     SelenideElement planButtonField = $(".button__text");
     SelenideElement notification = $(".notification__content");
-    SelenideElement replanButtonField = $("[data-test-id=replan-notification] .button__text");
+    SelenideElement rePlanButtonField = $("[data-test-id=replan-notification] .button__text");
     SelenideElement inputError = $((".input_invalid"));
 
-    UserData userData = DataGenerator.Registration.userDataGenerate("ru");
+    UserData userData = DataGenerator.Registration.userDataGenerate("ru", DataGenerator.Registration.getRandomCity());
+
     String deliveryDate = DataGenerator.Registration.generateDeliveryDate(3, 100);
     String newDeliveryDate = DataGenerator.Registration.generateDeliveryDate(3, 100);
     String name = userData.getFullName().replace("ё", "е");
@@ -33,28 +33,6 @@ public class CardDeliveryManager {
 
     public void clearField(SelenideElement field) {
         field.sendKeys(Keys.CONTROL, "a", Keys.DELETE);
-    }
-
-    public void createMeeting() {
-        cityField.setValue(city);
-        clearField(dateField);
-        dateField.setValue(deliveryDate);
-        nameField.setValue(name);
-        phoneField.setValue(tel);
-        checkboxField.click();
-        planButtonField.click();
-        while (inputError.exists()) {
-            clearField(cityField);
-            cityField.setValue(city);
-            planButtonField.click();
-        }
-    }
-
-    public void changeMeetingDate() {
-        clearField(dateField);
-        dateField.setValue(newDeliveryDate);
-        planButtonField.click();
-        replanButtonField.click();
     }
 
 }
